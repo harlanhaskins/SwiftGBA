@@ -1,0 +1,6 @@
+module Syscalls {
+	umbrella header "syscall.h"
+	module * {
+		export *
+	}
+}
