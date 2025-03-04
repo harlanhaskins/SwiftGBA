@@ -16,16 +16,5 @@ let package = Package(
       dependencies: [
         "Syscalls"
       ],
-      exclude: ["Bridging-Header.h"],
-      swiftSettings: [
-        .unsafeFlags([
-          "-Ounchecked",
-          "-Xfrontend", "-function-sections",
-          "-Xfrontend", "-experimental-hermetic-seal-at-link",
-          "-import-objc-header", "Sources/SwiftGBA/Bridging-Header.h",
-        ]),
-        .enableExperimentalFeature("Embedded"),
-        .enableExperimentalFeature("Volatile")
-      ]
     )
   ])

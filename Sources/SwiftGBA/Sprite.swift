@@ -1,3 +1,4 @@
+import tonc
 import _Volatile
 
 struct Sprite {

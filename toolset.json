@@ -8,7 +8,13 @@
   },
   "swiftCompiler": {
     "extraCLIOptions": [
+      "-I", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t/include",
       "-sysroot", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t",
+      "-enable-experimental-feature", "Embedded",
+      "-enable-experimental-feature", "Volatile",
+      "-Ounchecked",
+      "-Xfrontend", "-function-sections",
+      "-Xfrontend", "-experimental-hermetic-seal-at-link",
     ]
   },
   "linker": {

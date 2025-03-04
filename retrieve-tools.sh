@@ -22,6 +22,7 @@ if [[ $platform == Darwin ]]; then
     pushd 'Tools/lib/clang-runtimes/arm-none-eabi/armv4t/lib/'
     ln -s libclang_rt.builtins.a libclang_rt.builtins-armv4t.a
     popd
+    cp "Resources/module.modulemap" "Tools/lib/clang-runtimes/arm-none-eabi/armv4t/include/"
   else
     echo "Only Apple Silicon is supported"
     exit -1

@@ -1,3 +1,4 @@
+import tonc
 import Syscalls
 import _Volatile
 
@@ -9,7 +10,7 @@ struct Game {
   static func game() {
     irq_init(nil)
     irq_enable(II_VBLANK)
-    
+
     // set background mode 3 (bitmap) and turn on background 2
     let backgroundPtr = VolatileMappedRegister<UInt32>(unsafeBitPattern: 0x4000000)
     backgroundPtr.store(0x403)
@@ -97,7 +98,7 @@ struct Game {
       if rect.maxY >= Screen.height || rect.minY == 0 {
         velocity.dy = -velocity.dy
       }
-      
+
       wait_for_vblank()
     }
   }
@@ -110,9 +111,9 @@ func obj_test(buffer: UnsafeMutableBufferPointer<OBJ_ATTR>) {
     var pb: UInt16 = 0      // (3) tile id, pal-bank
     let metr = buffer.baseAddress!
 
-    obj_set_attr(metr, 
+    obj_set_attr(metr,
         0,              // Square, regular sprite
-        0xC000,              // 64x64p, 
+        0xC000,              // 64x64p,
         (pb << 11) | UInt16(tid))   // palbank 0, tile 0
 
     // (4) position sprite (redundant here the _real_ position
@@ -141,11 +142,11 @@ func obj_test(buffer: UnsafeMutableBufferPointer<OBJ_ATTR>) {
         if Key.a.isHit { // horizontally
             metr.pointee.attr1 ^= UInt16(ATTR1_HFLIP)
         }
-        
+
         if Key.start.isHit { // vertically
             metr.pointee.attr1 ^= UInt16(ATTR1_VFLIP)
         }
-        
+
         // make it glow (via palette swapping)
         pb = Key.select.isDown ? 1 : 0
 
@@ -165,7 +166,7 @@ func obj_test(buffer: UnsafeMutableBufferPointer<OBJ_ATTR>) {
 func sprite()
 {
     let obj_buffer = UnsafeMutableBufferPointer<OBJ_ATTR>.allocate(capacity: 128)
-    // (1) Places the tiles of a 4bpp boxed metroid sprite 
+    // (1) Places the tiles of a 4bpp boxed metroid sprite
     //   into LOW obj memory (cbb == 4)
     // memcpy(&Sprite.tileMemory[4].0, metr_boxTiles, metr_boxTilesLen)
     // memcpy(Sprite.paletteMemory, metrPal, metrPalLen)

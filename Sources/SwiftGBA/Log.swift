@@ -1,3 +1,5 @@
+import libc
+import tonc
 import _Volatile
 
 /// A Logging module for writing logs to mGBA's log stream.
