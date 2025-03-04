@@ -36,4 +36,8 @@ enum Key {
   var isUp: Bool {
     key_is_up(rawValue) != 0
   }
+  
+  var isHit: Bool {
+    key_hit(rawValue) != 0
+  }
 }

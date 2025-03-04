@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "cCompiler": {
+    "extraCLIOptions": [
+      "-I", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t/include",
+      "-D_LIBCPP_AVAILABILITY_HAS_NO_VERBOSE_ABORT=1"
+    ]
+  },
+  "swiftCompiler": {
+    "extraCLIOptions": [
+      "-sysroot", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t",
+    ]
+  },
+  "linker": {
+    "extraCLIOptions": [
+      "-ltonc", "-lcrt0-gba",
+      "-L", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t/lib",
+      "-T", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t/lib/gba_cart.ld"
+    ]
+  }
+}

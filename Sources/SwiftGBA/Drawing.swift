@@ -23,7 +23,7 @@ enum Screen {
 }
 
 enum Drawing {
-  static let backgroundPalette = VolatileMappedRegister<UInt16>(unsafeBitPattern: 0x5000000)
-  static let spritePalette = VolatileMappedRegister<UInt16>(unsafeBitPattern: 0x5000200)
-  static let spriteMemory = UnsafeMutablePointer<UInt16>(bitPattern: 0x6010000)!
+  static var backgroundPalette: VolatileMappedRegister<UInt16> { .init(unsafeBitPattern: 0x5000000) }
+  static var spritePalette: VolatileMappedRegister<UInt16> { .init(unsafeBitPattern: 0x5000200) }
+  static var spriteMemory: UnsafeMutablePointer<UInt16> {  .init(bitPattern: 0x6010000)! }
 }

@@ -12,7 +12,7 @@ enum Log {
     }
 
     /// Buffer for log messages to be written to.
-    private static let logBuffer = UnsafeMutableRawPointer(bitPattern: 0x04FF_F600)!
+    private static var logBuffer: UnsafeMutableRawPointer { .init(bitPattern: 0x04FF_F600)! }
 
     /// Send register.
     ///

@@ -4,7 +4,7 @@ import _Volatile
 @main
 struct Game {
   static func main() {
-    dvd()
+    sprite()
   }
   static func game() {
     irq_init(nil)
@@ -101,4 +101,79 @@ struct Game {
       wait_for_vblank()
     }
   }
+}
+
+func obj_test(buffer: UnsafeMutableBufferPointer<OBJ_ATTR>) {
+    var x: Int32 = 96
+    var y: Int32 = 32
+    var tid: UInt32 = 0
+    var pb: UInt16 = 0      // (3) tile id, pal-bank
+    let metr = buffer.baseAddress!
+
+    obj_set_attr(metr, 
+        0,              // Square, regular sprite
+        0xC000,              // 64x64p, 
+        (pb << 11) | UInt16(tid))   // palbank 0, tile 0
+
+    // (4) position sprite (redundant here the _real_ position
+    // is set further down
+    obj_set_pos(metr, x, y)
+
+    while true {
+        vid_vsync()
+        key_poll()
+
+        // (5) Do various interesting things
+        // move left/right
+        x += 2*key_tri_horz()
+        // move up/down
+        y += 2*key_tri_vert()
+
+        // increment/decrement starting tile with R/L
+        if Key.r.isHit {
+          tid += 1
+        }
+        if Key.l.isHit {
+          tid -= 1
+        }
+
+        // flip
+        if Key.a.isHit { // horizontally
+            metr.pointee.attr1 ^= UInt16(ATTR1_HFLIP)
+        }
+        
+        if Key.start.isHit { // vertically
+            metr.pointee.attr1 ^= UInt16(ATTR1_VFLIP)
+        }
+        
+        // make it glow (via palette swapping)
+        pb = Key.select.isDown ? 1 : 0
+
+        // toggle mapping mode
+        // if Key.start.isHit {
+        //     REG_DISPCNT ^= DCNT_OBJ_1D
+        // }
+
+        // Hey look, it's one of them build macros!
+        metr.pointee.attr2 = UInt16(ATTR2_BUILD(id: tid, pbank: UInt32(pb), prio: 0))
+        obj_set_pos(metr, x, y)
+
+        oam_copy(Sprite.objectMemory, metr, 1)   // (6) Update OAM (only one now)
+    }
+}
+
+func sprite()
+{
+    let obj_buffer = UnsafeMutableBufferPointer<OBJ_ATTR>.allocate(capacity: 128)
+    // (1) Places the tiles of a 4bpp boxed metroid sprite 
+    //   into LOW obj memory (cbb == 4)
+    // memcpy(&Sprite.tileMemory[4].0, metr_boxTiles, metr_boxTilesLen)
+    // memcpy(Sprite.paletteMemory, metrPal, metrPalLen)
+
+    // (2) Initialize all sprites
+    oam_init(obj_buffer.baseAddress, 128)
+    Register.displayControl.store(UInt32(DCNT_OBJ) | UInt32(DCNT_OBJ_1D))
+
+    obj_test(buffer: obj_buffer)
+    obj_buffer.deallocate()
 }

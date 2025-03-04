@@ -20,7 +20,7 @@ build: $(ROM)
 # Step 1: Build the executable with swift-build.
 .PHONY: $(BINARY) # Force it to be re-run every `make`.
 $(BINARY):
-	$(SWIFT_BUILD) -v -c $(CONFIG) --triple $(TARGET)
+	$(SWIFT_BUILD) -vv -c $(CONFIG) --triple $(TARGET) --toolset toolset.json
 
 # Step 2: Build the ROM by stripping and copying the binary, then running gbafix.
 $(ROM) : $(BINARY)
