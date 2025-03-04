@@ -3,7 +3,7 @@ import tonc
 import _Volatile
 
 /// A Logging module for writing logs to mGBA's log stream.
-enum Log {
+public enum Log {
     private enum Level: UInt16 {
         /// Fatal causes mGBA to halt execution.
         case fatal = 0x100
@@ -44,38 +44,38 @@ enum Log {
         sendLogMailbox.store(level.rawValue)
     }
 
-    static func enable() {
+    public static func enable() {
         logEnableMailbox.store(0xC0DE)
     }
 
-    static func debug(_ message: StaticString) {
+    public static func debug(_ message: StaticString) {
         writeLog(message, at: .debug)
     }
-    static func info(_ message: StaticString) {
+    public static func info(_ message: StaticString) {
         writeLog(message, at: .info)
     }
-    static func warning(_ message: StaticString) {
+    public static func warning(_ message: StaticString) {
         writeLog(message, at: .warning)
     }
-    static func error(_ message: StaticString) {
+    public static func error(_ message: StaticString) {
         writeLog(message, at: .error)
     }
-    static func fatal(_ message: StaticString) {
+    public static func fatal(_ message: StaticString) {
         writeLog(message, at: .fatal)
     }
-    static func debug(cString message: UnsafePointer<UInt8>) {
+    public static func debug(cString message: UnsafePointer<UInt8>) {
         writeLog(message, at: .debug)
     }
-    static func info(cString message: UnsafePointer<UInt8>) {
+    public static func info(cString message: UnsafePointer<UInt8>) {
         writeLog(message, at: .info)
     }
-    static func warning(cString message: UnsafePointer<UInt8>) {
+    public static func warning(cString message: UnsafePointer<UInt8>) {
         writeLog(message, at: .warning)
     }
-    static func error(cString message: UnsafePointer<UInt8>) {
+    public static func error(cString message: UnsafePointer<UInt8>) {
         writeLog(message, at: .error)
     }
-    static func fatal(cString message: UnsafePointer<UInt8>) {
+    public static func fatal(cString message: UnsafePointer<UInt8>) {
         writeLog(message, at: .fatal)
     }
 }

@@ -1,6 +1,6 @@
 import tonc
 
-enum Key {
+public enum Key: Sendable {
   case a
   case b
   case up
@@ -12,7 +12,7 @@ enum Key {
   case l
   case r
 
-  var rawValue: UInt32 {
+  public var rawValue: UInt32 {
     switch self {
     case .a: UInt32(KEY_A)
     case .b: UInt32(KEY_B)
@@ -27,19 +27,19 @@ enum Key {
     }
   }
 
-  static func poll() {
+  public static func poll() {
     key_poll()
   }
 
-  var isDown: Bool {
+  public var isDown: Bool {
     key_is_down(rawValue) != 0
   }
 
-  var isUp: Bool {
+  public var isUp: Bool {
     key_is_up(rawValue) != 0
   }
 
-  var isHit: Bool {
+  public var isHit: Bool {
     key_hit(rawValue) != 0
   }
 }

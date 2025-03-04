@@ -1,20 +1,20 @@
 import tonc
 import _Volatile
 
-struct Sprite {
-    nonisolated static var tileMemory: UnsafeMutablePointer<CHARBLOCK> {
+public struct Sprite: Sendable {
+    public nonisolated static var tileMemory: UnsafeMutablePointer<CHARBLOCK> {
         .init(bitPattern: 0x6000000)!
     }
-    nonisolated static var paletteMemory: UnsafeMutableRawPointer {
+    public nonisolated static var paletteMemory: UnsafeMutableRawPointer {
         .init(bitPattern: 0x5000000)!
     }
-    nonisolated static var paletteObjectMemory: UnsafeMutableRawPointer {
+    public nonisolated static var paletteObjectMemory: UnsafeMutableRawPointer {
         paletteMemory + 0x00200
     }
-    nonisolated static var objectMemory: UnsafeMutablePointer<OBJ_ATTR> {
+    public nonisolated static var objectMemory: UnsafeMutablePointer<OBJ_ATTR> {
         .init(bitPattern: 0x07000000)!
     }
-    enum Size {
+    public enum Size: Sendable {
         /* the different sizes of sprites which are possible */
         case _8x8
         case _16x16
@@ -29,7 +29,7 @@ struct Sprite {
         case _16x32
         case _32x64
 
-        var bits: (shape: UInt8, size: UInt8) {
+        public var bits: (shape: UInt8, size: UInt8) {
             switch self {
             case ._8x8:   (0,0)
             case ._16x16: (1,0)

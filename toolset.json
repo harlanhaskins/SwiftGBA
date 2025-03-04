@@ -11,13 +11,16 @@
       "-sysroot", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t",
       "-enable-experimental-feature", "Embedded",
       "-enable-experimental-feature", "Volatile",
-      "-Ounchecked"
+      "-Ounchecked",
+      "-Xfrontend", "-function-sections",
+      "-Xfrontend", "-experimental-hermetic-seal-at-link",
     ]
   },
   "linker": {
     "extraCLIOptions": [
       "-ltonc", "-lcrt0-gba",
-      "-T", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t/lib/gba_cart.ld"
+      "-T", "Tools/lib/clang-runtimes/arm-none-eabi/armv4t/lib/gba_cart.ld",
+      "-z", "norelro"
     ]
   }
 }

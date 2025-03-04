@@ -5,16 +5,20 @@ import PackageDescription
 let package = Package(
   name: "SwiftGBA",
   products: [
-   .executable(name: "SwiftGBA", targets: ["SwiftGBA"]),
+    .library(name: "SwiftGBA", targets: ["SwiftGBA"]),
+    .executable(name: "DVD", targets: ["DVD"]),
+    .executable(name: "Game", targets: ["Game"]),
   ],
   dependencies: [
   ],
   targets: [
     .target(name: "Syscalls"),
-    .executableTarget(
+    .target(
       name: "SwiftGBA",
       dependencies: [
         "Syscalls"
-      ],
-    )
+      ]
+    ),
+    .executableTarget(name: "DVD", dependencies: ["SwiftGBA"]),
+    .executableTarget(name: "Game", dependencies: ["SwiftGBA"]),
   ])

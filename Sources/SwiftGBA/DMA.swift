@@ -1,21 +1,21 @@
 import _Volatile
 
-enum DMA {
+public enum DMA {
     /* pointer to the DMA source location */
-    static let source = VolatileMappedRegister<UInt32>(unsafeBitPattern: 0x40000D4)
+    public static let source = VolatileMappedRegister<UInt32>(unsafeBitPattern: 0x40000D4)
 
     /* pointer to the DMA destination location */
-    static let destination = VolatileMappedRegister<UInt32>(unsafeBitPattern: 0x40000D8)
+    public static let destination = VolatileMappedRegister<UInt32>(unsafeBitPattern: 0x40000D8)
 
     /* pointer to the DMA count/control */
-    static let count = VolatileMappedRegister<UInt32>(unsafeBitPattern: 0x40000DC)
+    public static let count = VolatileMappedRegister<UInt32>(unsafeBitPattern: 0x40000DC)
 
     /* flags for the sizes to transfer, 16 or 32 bits */
-    static let sixteenBit = UInt32(0x00000000)
-    static let thirtyTwoBit = UInt32(0x04000000)
-    static let enable = UInt32(0x80000000)
+    public static let sixteenBit = UInt32(0x00000000)
+    public static let thirtyTwoBit = UInt32(0x04000000)
+    public static let enable = UInt32(0x80000000)
 
-    static func copy(
+    public static func copy(
         from source: UnsafeBufferPointer<UInt16>,
         to destination: UnsafeBufferPointer<UInt16>
     ) {
@@ -24,7 +24,7 @@ enum DMA {
         self.count.store(UInt32(source.count) | sixteenBit | enable)
     }
 
-    static func copy(
+    public static func copy(
         from source: UnsafeBufferPointer<UInt32>,
         to destination: UnsafeBufferPointer<UInt32>
     ) {
